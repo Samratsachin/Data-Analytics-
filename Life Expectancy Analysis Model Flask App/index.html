@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Life Expectancy Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Life Expectancy Prediction</h1>
+        <p class="subtitle">Fill in the details below (example values shown in each box)</p>
+        
+        <form method="POST" action="/predict" id="predictionForm">
+            {% for feat in feature_names %}
+                <label>{{ feat }}:</label>
+                <input type="number" step="any" name="{{ feat }}" 
+                       placeholder="{% if 'GDP' in feat %}5000 (Example: GDP per capita){% 
+                                    elif 'Alcohol' in feat %}5.5 (Liters per year){%
+                                    elif 'BMI' in feat %}23.4 (Average BMI){%
+                                    elif 'Population' in feat %}10000000 (Population size){%
+                                    elif 'Schooling' in feat %}12.5 (Years of schooling){%
+                                    else %}Enter value{% endif %}" 
+                       required>
+            {% endfor %}
+            
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if prediction_text %}
+            <div class="result">{{ prediction_text }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
